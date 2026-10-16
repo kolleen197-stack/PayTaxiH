@@ -23,7 +23,7 @@ public class AuthFilter extends OncePerRequestFilter {
             res.setHeader("Pragma","no-cache");
             res.setHeader("Expires","0");
         }
-        if(!path.startsWith("/api/") || path.equals("/api/health") || path.equals("/api/auth/login") || path.equals("/api/auth/register") || path.equals("/api/auth/forgot-password") || path.equals("/api/auth/reset-password") || path.equals("/api/auth/mfa/verify") || "OPTIONS".equalsIgnoreCase(req.getMethod())){chain.doFilter(req,res);return;}
+        if(!path.startsWith("/api/") || path.equals("/api/health") || path.equals("/api/auth/login") || path.equals("/api/auth/register") || path.equals("/api/internal/bootstrap-admin") || path.equals("/api/auth/forgot-password") || path.equals("/api/auth/reset-password") || path.equals("/api/auth/mfa/verify") || "OPTIONS".equalsIgnoreCase(req.getMethod())){chain.doFilter(req,res);return;}
         String h=req.getHeader("Authorization");
         String token=h!=null&&h.startsWith("Bearer ")?h.substring(7):null;
         if(token==null){

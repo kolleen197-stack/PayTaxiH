@@ -37,6 +37,8 @@ public class ApiController {
     @Value("${app.session.cookie-secure:true}") private boolean secureSessionCookie;
     @Value("${app.password-reset.expose-code:false}") private boolean exposePasswordResetCode;
     @Value("${app.mfa.code:}") private String mfaCode;
+    @Value("${app.admin.bootstrap-key:}") private String adminBootstrapKey = "";
+    @Value("${app.admin.bootstrap-email:}") private String adminBootstrapEmail = "";
 
     private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(ApiController.class);
     private static final String DUPLICATE_MESSAGE = "We could not complete registration with those details. Check the information and try again.";
@@ -178,7 +180,31 @@ public class ApiController {
     public ResponseEntity<?> createUser(@RequestBody Map<String, Object> p, @RequestAttribute("authRole") String authRole) {
         requireRole(authRole, User.Role.Admin);
         try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(txTemplate.execute(status -> register(p)));
+            return ResponseEntity.status(HttpStatus.CREATED).body(txTemplate.execute(status -> register(p, false)));
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(map("message", duplicateConstraintMessage(e)));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(map("message", safeMessage(e)));
+        }
+    }
+
+    @PostMapping("/internal/bootstrap-admin")
+    public ResponseEntity<?> bootstrapAdmin(
+            @RequestHeader(value = "X-Admin-Bootstrap-Key", required = false) String suppliedKey,
+            @RequestBody Map<String, Object> payload) {
+        if (adminBootstrapKey.isBlank() || adminBootstrapEmail.isBlank() || suppliedKey == null
+                || !java.security.MessageDigest.isEqual(
+                        adminBootstrapKey.getBytes(java.nio.charset.StandardCharsets.UTF_8),
+                        suppliedKey.getBytes(java.nio.charset.StandardCharsets.UTF_8))) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Map<String, Object> admin = new HashMap<>(payload);
+        admin.put("email", adminBootstrapEmail);
+        admin.put("role", User.Role.Admin.name());
+        try {
+            Map<String, Object> user = txTemplate.execute(status -> register(admin, true));
+            return ResponseEntity.status(HttpStatus.CREATED).body(map("user", user));
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(map("message", duplicateConstraintMessage(e)));
         } catch (Exception e) {
@@ -187,7 +213,7 @@ public class ApiController {
     }
 
     // Called through txTemplate (a @Transactional on a private method is ignored by Spring), so user+wallet+profile are saved atomically.
-    private Map<String, Object> register(Map<String, Object> p) {
+    private Map<String, Object> register(Map<String, Object> p, boolean allowAdmin) {
         String full = String.valueOf(p.getOrDefault("fullName", "")).trim(), email = String.valueOf(p.getOrDefault("email", "")).trim().toLowerCase(), phone = String.valueOf(p.getOrDefault("phoneNumber", "")).trim(), password = String.valueOf(p.getOrDefault("password", "")), role = String.valueOf(p.getOrDefault("role", "Commuter")).trim(), saId = String.valueOf(p.getOrDefault("saIdNumber", "")).trim(), prdp = String.valueOf(p.getOrDefault("prdpNumber", "")).trim(), company = String.valueOf(p.getOrDefault("companyName", "")).trim();
         if (full.length() < 2 || full.length() > 100) {
             throw new IllegalArgumentException(
@@ -212,9 +238,11 @@ public class ApiController {
         User.Role r;
         try {
             r = User.Role.valueOf(role);
-            if (r == User.Role.Admin) throw new IllegalArgumentException("Administrator accounts cannot be created through public registration.");
         } catch (Exception e) {
             throw new IllegalArgumentException("Invalid account role.");
+        }
+        if (r == User.Role.Admin && !allowAdmin) {
+            throw new IllegalArgumentException("Administrator accounts cannot be created through public registration.");
         }
         if (users.findByEmail(email).isPresent()) {
             throw new IllegalArgumentException(DUPLICATE_MESSAGE);
@@ -273,7 +301,7 @@ public class ApiController {
     @PostMapping("/auth/register")
     public ResponseEntity<?> authRegister(@RequestBody Map<String, Object> p) {
         try {
-            Map<String, Object> user = txTemplate.execute(status -> register(p));
+            Map<String, Object> user = txTemplate.execute(status -> register(p, false));
             User u = users.findByEmail(String.valueOf(user.get("email"))).orElseThrow();
             String token=sessions.create(u);
             return ResponseEntity.status(HttpStatus.CREATED)
