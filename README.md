@@ -44,6 +44,7 @@ Railway builds this app from the included `Dockerfile` and hosts its MySQL datab
    DB_USERNAME=${{MySQL.MYSQLUSER}}
    DB_PASSWORD=${{MySQL.MYSQLPASSWORD}}
    SESSION_COOKIE_SECURE=true
+   APP_CORS_ALLOWED_ORIGINS=https://paytaxih-production.up.railway.app
    ```
 
    Do not commit real credentials to GitHub or turn on `RESET_CODE_EXPOSE`.
