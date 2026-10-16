@@ -32,22 +32,21 @@ The QR opens commuter login and carries the active shift code. The phone must be
 
 ## Deploy on Railway
 
-Railway can host the app and its MySQL database and provide a public HTTPS address.
+Railway can build this app from the included `Dockerfile` and provide a public HTTPS address. This project expects an existing MySQL database; the database host must allow connections from Railway.
 
-1. Sign in to [Railway](https://railway.com/) and create a project using **Deploy from GitHub repo**. Select `Bongani1232/PayTaxiHub` and authorize access if asked.
-2. In the project, add a MySQL database service. Keep its service name `MySQL` so the variable references below work.
-3. In the app service's **Variables**, add:
+1. Sign in to [Railway](https://railway.com/) and create a project using **Deploy from GitHub repo**. Select `kolleen197-stack/PayTaxiHub` and authorize access if asked.
+2. In the app service's **Variables**, set the following values from your MySQL provider:
 
    ```text
-   DB_URL=jdbc:mysql://${{MySQL.MYSQLHOST}}:${{MySQL.MYSQLPORT}}/${{MySQL.MYSQLDATABASE}}?serverTimezone=Africa/Johannesburg&sslMode=REQUIRED
-   DB_USERNAME=${{MySQL.MYSQLUSER}}
-   DB_PASSWORD=${{MySQL.MYSQLPASSWORD}}
+   DB_URL=jdbc:mysql://<host>:<port>/<database>?serverTimezone=Africa/Johannesburg&sslMode=REQUIRED
+   DB_USERNAME=<database-user>
+   DB_PASSWORD=<database-password>
    SESSION_COOKIE_SECURE=true
    ```
 
-   Railway builds the app from the included `Dockerfile`. Do not add real credentials to GitHub or turn on `RESET_CODE_EXPOSE`.
-4. Wait for the app deployment to finish. In the app service, open **Settings → Networking → Public Networking** and choose **Generate Domain**.
-5. Open the generated `https://…railway.app` address. The home page is `/index.html`.
+   Enter the real database password only in Railway's Variables UI. Do not commit credentials to GitHub or turn on `RESET_CODE_EXPOSE`.
+3. Wait for the app deployment to finish. In the app service, open **Settings → Networking → Public Networking** and choose **Generate Domain**.
+4. Open the generated `https://…railway.app` address. The home page is `/index.html`.
 
 The app uses Flyway migrations to create its tables on first startup. Do not run the reset SQL script against a database containing data you want to keep. This demo is not intended for real payments or sensitive personal information. Check Railway's current pricing and database backup options before using it.
 

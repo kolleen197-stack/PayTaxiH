@@ -1,96 +1,187 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="tailwind.generated.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"><title>Login | PayTaxiHub</title><link rel="stylesheet" href="professional.css?v=2"><link rel="icon" href="pth-monogram.svg"></head><body class="bg-gray-100"><nav class="pth-nav"><div class="pth-nav-inner"><a href="index.html" class="pth-logo"><img class="pth-logo-mark" src="pth-monogram.svg" alt="" aria-hidden="true">Pay<span>Taxi</span>Hub</a><ul class="pth-nav-links"><li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li><li><a href="register.html" class="pth-nav-cta">Register</a></li></ul></div></nav><main class="pt-16"><section class="section min-h-[650px] flex items-center"><div class="max-w-lg w-full mx-auto bg-white rounded-2xl shadow-lg p-8">
-<span class="verified-badge">SECURE ACCOUNT ACCESS</span>
-<h1 class="text-4xl font-extrabold mt-4">Welcome back</h1>
-<p class="text-gray-500 mt-2">Choose your role and sign in to continue.</p>
-<form id="loginForm" class="mt-8 space-y-4" novalidate autocomplete="off">
-<div><label for="role" class="block text-sm font-bold mb-1">Account role</label><select id="role" name="pth-role" class="secure-input w-full p-3 rounded-lg"><option value="" selected>Select role</option><option value="Commuter">Commuter</option><option value="Driver">Driver</option><option value="FleetOwner">Fleet Owner</option><option value="Admin">Administrator</option></select></div>
-<div><label for="email" class="block text-sm font-bold mb-1">Email</label><input id="email" name="email" type="email" inputmode="email" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="254" readonly class="secure-input w-full p-3 rounded-lg"></div>
-<div><label for="password" class="block text-sm font-bold mb-1">Password</label><div class="password-field"><input id="password" name="password" type="password" autocomplete="new-password" maxlength="72" readonly class="secure-input password-input w-full p-3 rounded-lg"><button type="button" id="togglePw" class="password-toggle" aria-label="Show password" aria-pressed="false">Show</button></div></div>
-<div id="mfaBox" class="hidden"><label for="mfaCode" class="block text-sm font-bold mb-1">Verification code</label><input id="mfaCode" type="text" inputmode="numeric" autocomplete="off" maxlength="12" class="secure-input w-full p-3 rounded-lg tracking-widest"><p class="text-xs text-gray-500 mt-1">Enter the verification code to finish signing in.</p></div>
-<div id="loginError" class="hidden" role="alert" aria-live="polite"></div>
-<button id="loginBtn" class="btn-primary" type="submit">Secure Login</button>
-</form>
-<p class="text-sm mt-4"><a class="text-[#007A5E] font-bold" href="forgot-password.html">Forgot password?</a></p>
-<p class="text-sm text-gray-500 mt-5">New to PayTaxiHub? <a class="text-[#007A5E] font-bold" href="register.html">Create an account</a></p>
-</div></section></main><div id="toast-container"></div><script src="app_engine.js?v=4"></script><script>
-(function(){
-const form=document.getElementById('loginForm'),roleEl=document.getElementById('role'),emailEl=document.getElementById('email'),pwEl=document.getElementById('password'),mfaBox=document.getElementById('mfaBox'),mfaEl=document.getElementById('mfaCode'),errBox=document.getElementById('loginError'),btn=document.getElementById('loginBtn'),toggle=document.getElementById('togglePw');
-const shiftCode=new URLSearchParams(location.search).get('shiftCode')||'';
-let challengeId=null,busy=false;
+                    <span class="verified-badge">SECURE ACCOUNT ACCESS</span>
+                    <h1 class="text-4xl font-extrabold mt-4">Welcome back</h1>
+                    <p class="text-gray-500 mt-2">Choose your role and sign in to continue.</p>
+                    <form id="loginForm" class="mt-8 space-y-4" novalidate autocomplete="off">
+                        <div><label for="role" class="block text-sm font-bold mb-1">Account role</label><select id="role" name="pth-role" class="secure-input w-full p-3 rounded-lg"><option value="" selected>Select role</option><option value="Commuter">Commuter</option><option value="Driver">Driver</option><option value="FleetOwner">Fleet Owner</option><option value="Admin">Administrator</option></select></div>
+                        <div><label for="email" class="block text-sm font-bold mb-1">Email</label><input id="email" name="email" type="email" inputmode="email" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="254" readonly class="secure-input w-full p-3 rounded-lg"></div>
+                        <div><label for="password" class="block text-sm font-bold mb-1">Password</label><div class="password-field"><input id="password" name="password" type="password" autocomplete="new-password" maxlength="72" readonly class="secure-input password-input w-full p-3 rounded-lg"><button type="button" id="togglePw" class="password-toggle" aria-label="Show password" aria-pressed="false">Show</button></div></div>
+                        <div id="mfaBox" class="hidden"><label for="mfaCode" class="block text-sm font-bold mb-1">Verification code</label><input id="mfaCode" type="text" inputmode="numeric" autocomplete="off" maxlength="12" class="secure-input w-full p-3 rounded-lg tracking-widest"><p class="text-xs text-gray-500 mt-1">Enter the verification code to finish signing in.</p></div>
+                        <div id="loginError" class="hidden" role="alert" aria-live="polite"></div>
+                        <button id="loginBtn" class="btn-primary" type="submit">Secure Login</button>
+                    </form>
+                    <p class="text-sm mt-4"><a class="text-[#007A5E] font-bold" href="forgot-password.html">Forgot password?</a></p>
+                    <p class="text-sm text-gray-500 mt-5">New to PayTaxiHub? <a class="text-[#007A5E] font-bold" href="register.html">Create an account</a></p>
+                </div></section></main><div id="toast-container"></div><script src="app_engine.js?v=4"></script><script>
+                    (function () {
+                        const form = document.getElementById('loginForm'), roleEl = document.getElementById('role'), emailEl = document.getElementById('email'), pwEl = document.getElementById('password'), mfaBox = document.getElementById('mfaBox'), mfaEl = document.getElementById('mfaCode'), errBox = document.getElementById('loginError'), btn = document.getElementById('loginBtn'), toggle = document.getElementById('togglePw');
+                        const shiftCode = new URLSearchParams(location.search).get('shiftCode') || '';
+                        let challengeId = null, busy = false;
 
-async function endOldSession(){
-  const token=getToken();
-  clearSession();
-  if(!token)return;
-  busy=true;btn.disabled=true;btn.textContent='Ending previous session?';
-  try{
-    const response=await fetch(API_BASE_URL+'/auth/logout',{
-      method:'POST',
-      headers:{Authorization:'Bearer '+token},
-      cache:'no-store'
-    });
-    if(!response.ok)throw new Error('Session revocation failed.');
-  }catch{
-    showError('We could not confirm that the previous session was ended. Please contact support if this continues.');
-  }finally{
-    busy=false;btn.disabled=false;btn.textContent='Secure Login';
-  }
-}
-function resetForm(){form.reset();roleEl.value=shiftCode?'Commuter':'';emailEl.value='';pwEl.value='';mfaEl.value='';emailEl.readOnly=true;pwEl.readOnly=true;mfaBox.classList.add('hidden');challengeId=null;clearError();pwEl.type='password';toggle.textContent='Show';toggle.setAttribute('aria-pressed','false');btn.disabled=false;btn.textContent='Secure Login';busy=false;}
-function clearError(){errBox.className='hidden';errBox.textContent='';[roleEl,emailEl,pwEl,mfaEl].forEach(el=>el.removeAttribute('aria-invalid'));}
-function showError(msg,field){errBox.className='notice error';errBox.textContent=msg;[roleEl,emailEl,pwEl,mfaEl].forEach(el=>el.removeAttribute('aria-invalid'));if(field){field.setAttribute('aria-invalid','true');field.focus();}}
-// Start empty on first load and when the browser restores the page from its back/forward cache.
-resetForm();
-endOldSession();
-window.addEventListener('pageshow',e=>{if(e.persisted){clearSession();resetForm();}});
-[emailEl,pwEl].forEach(el=>el.addEventListener('focus',()=>{el.readOnly=false;}));
-[roleEl,emailEl,pwEl,mfaEl].forEach(el=>el.addEventListener('input',()=>{if(!errBox.classList.contains('hidden'))clearError();}));
-toggle.addEventListener('click',()=>{const show=pwEl.type==='password';pwEl.type=show?'text':'password';toggle.textContent=show?'Hide':'Show';toggle.setAttribute('aria-label',show?'Hide password':'Show password');toggle.setAttribute('aria-pressed',String(show));});
+                        async function endOldSession() {
+                            const token = getToken();
+                            clearSession();
+                            if (!token)
+                                return;
+                            busy = true;
+                            btn.disabled = true;
+                            btn.textContent = 'Ending previous session?';
+                            try {
+                                const response = await fetch(API_BASE_URL + '/auth/logout', {
+                                    method: 'POST',
+                                    headers: {Authorization: 'Bearer ' + token},
+                                    cache: 'no-store'
+                                });
+                                if (!response.ok)
+                                    throw new Error('Session revocation failed.');
+                            } catch {
+                                showError('We could not confirm that the previous session was ended. Please contact support if this continues.');
+                            } finally {
+                                busy = false;
+                                btn.disabled = false;
+                                btn.textContent = 'Secure Login';
+                            }
+                        }
+                        function resetForm() {
+                            form.reset();
+                            roleEl.value = shiftCode ? 'Commuter' : '';
+                            emailEl.value = '';
+                            pwEl.value = '';
+                            mfaEl.value = '';
+                            emailEl.readOnly = true;
+                            pwEl.readOnly = true;
+                            mfaBox.classList.add('hidden');
+                            challengeId = null;
+                            clearError();
+                            pwEl.type = 'password';
+                            toggle.textContent = 'Show';
+                            toggle.setAttribute('aria-pressed', 'false');
+                            btn.disabled = false;
+                            btn.textContent = 'Secure Login';
+                            busy = false;
+                        }
+                        function clearError() {
+                            errBox.className = 'hidden';
+                            errBox.textContent = '';
+                            [roleEl, emailEl, pwEl, mfaEl].forEach(el => el.removeAttribute('aria-invalid'));
+                        }
+                        function showError(msg, field) {
+                            errBox.className = 'notice error';
+                            errBox.textContent = msg;
+                            [roleEl, emailEl, pwEl, mfaEl].forEach(el => el.removeAttribute('aria-invalid'));
+                            if (field) {
+                                field.setAttribute('aria-invalid', 'true');
+                                field.focus();
+                            }
+                        }
+                // Start empty on first load and when the browser restores the page from its back/forward cache.
+                        resetForm();
+                        endOldSession();
+                        window.addEventListener('pageshow', e => {
+                            if (e.persisted) {
+                                clearSession();
+                                resetForm();
+                            }
+                        });
+                        [emailEl, pwEl].forEach(el => el.addEventListener('focus', () => {
+                                el.readOnly = false;
+                            }));
+                        [roleEl, emailEl, pwEl, mfaEl].forEach(el => el.addEventListener('input', () => {
+                                if (!errBox.classList.contains('hidden'))
+                                    clearError();
+                            }));
+                        toggle.addEventListener('click', () => {
+                            const show = pwEl.type === 'password';
+                            pwEl.type = show ? 'text' : 'password';
+                            toggle.textContent = show ? 'Hide' : 'Show';
+                            toggle.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+                            toggle.setAttribute('aria-pressed', String(show));
+                        });
 
-function validate(){
-  const role=roleEl.value,email=emailEl.value.trim(),password=pwEl.value;
-  if(!role){showError('Please select your account role.',roleEl);return null;}
-  if(!email){showError('Please enter your email address.',emailEl);return null;}
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){showError('Please enter a valid email address.',emailEl);return null;}
-  if(!password){showError('Please enter your password.',pwEl);return null;}
-  return {role,email:email.toLowerCase(),password};
-}
-function finish(result){
-  setSession(result.user,result.token);
-  return verifySession().then(v=>{
-    const user=(v&&v.user)||result.user;setSession(user,result.token);
-    const actual=normalizeRole(user.role);
-    location.replace(actual==='Commuter'&&shiftCode?`commuter_dash.html?shiftCode=${encodeURIComponent(shiftCode)}`:rolePath(actual));
-  });
-}
-form.addEventListener('submit',async e=>{
-  e.preventDefault();if(busy)return;clearError();
-  try{
-    let result;
-    if(challengeId){
-      const code=mfaEl.value.trim();
-      if(!code){showError('Please enter your verification code.',mfaEl);return;}
-      busy=true;btn.disabled=true;btn.textContent='Verifying…';
-      result=await request('auth/mfa/verify',{method:'POST',body:JSON.stringify({challengeId,code})});
-    }else{
-      const v=validate();if(!v)return;
-      busy=true;btn.disabled=true;btn.textContent='Signing in…';
-      result=await loginUser(v.email,v.password,v.role);
-      if(result&&result.mfaRequired){challengeId=result.challengeId;mfaBox.classList.remove('hidden');mfaEl.value='';busy=false;btn.disabled=false;btn.textContent='Verify and sign in';mfaEl.focus();return;}
-    }
-    if(!result||!result.user||!result.token)throw new Error('Sign in could not be completed. Please try again.');
-    btn.textContent='Redirecting…';
-    await finish(result);
-  }catch(ex){
-    clearSession();
-    emailEl.value='';
-    pwEl.value='';
-    mfaEl.value='';
-    const msg=(ex&&ex.message)||'Sign in failed. Please try again.';
-    if(challengeId&&/sign in again|expired/i.test(msg)){challengeId=null;mfaBox.classList.add('hidden');}
-    showError(msg,challengeId?mfaEl:null);
-    busy=false;btn.disabled=false;btn.textContent=challengeId?'Verify and sign in':'Secure Login';
-  }
-});
-})();
-</script></body></html>
+                        function validate() {
+                            const role = roleEl.value, email = emailEl.value.trim(), password = pwEl.value;
+                            if (!role) {
+                                showError('Please select your account role.', roleEl);
+                                return null;
+                            }
+                            if (!email) {
+                                showError('Please enter your email address.', emailEl);
+                                return null;
+                            }
+                            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                                showError('Please enter a valid email address.', emailEl);
+                                return null;
+                            }
+                            if (!password) {
+                                showError('Please enter your password.', pwEl);
+                                return null;
+                            }
+                            return {role, email: email.toLowerCase(), password};
+                        }
+                        function finish(result) {
+                            setSession(result.user, result.token);
+                            return verifySession().then(v => {
+                                const user = (v && v.user) || result.user;
+                                setSession(user, result.token);
+                                const actual = normalizeRole(user.role);
+                                location.replace(actual === 'Commuter' && shiftCode ? `commuter_dash.html?shiftCode=${encodeURIComponent(shiftCode)}` : rolePath(actual));
+                            });
+                        }
+                        form.addEventListener('submit', async e => {
+                            e.preventDefault();
+                            if (busy)
+                                return;
+                            clearError();
+                            try {
+                                let result;
+                                if (challengeId) {
+                                    const code = mfaEl.value.trim();
+                                    if (!code) {
+                                        showError('Please enter your verification code.', mfaEl);
+                                        return;
+                                    }
+                                    busy = true;
+                                    btn.disabled = true;
+                                    btn.textContent = 'Verifying…';
+                                    result = await request('auth/mfa/verify', {method: 'POST', body: JSON.stringify({challengeId, code})});
+                                } else {
+                                    const v = validate();
+                                    if (!v)
+                                        return;
+                                    busy = true;
+                                    btn.disabled = true;
+                                    btn.textContent = 'Signing in…';
+                                    result = await loginUser(v.email, v.password, v.role);
+                                    if (result && result.mfaRequired) {
+                                        challengeId = result.challengeId;
+                                        mfaBox.classList.remove('hidden');
+                                        mfaEl.value = '';
+                                        busy = false;
+                                        btn.disabled = false;
+                                        btn.textContent = 'Verify and sign in';
+                                        mfaEl.focus();
+                                        return;
+                                    }
+                                }
+                                if (!result || !result.user || !result.token)
+                                    throw new Error('Sign in could not be completed. Please try again.');
+                                btn.textContent = 'Redirecting…';
+                                await finish(result);
+                            } catch (ex) {
+                                clearSession();
+                                emailEl.value = '';
+                                pwEl.value = '';
+                                mfaEl.value = '';
+                                const msg = (ex && ex.message) || 'Sign in failed. Please try again.';
+                                if (challengeId && /sign in again|expired/i.test(msg)) {
+                                    challengeId = null;
+                                    mfaBox.classList.add('hidden');
+                                }
+                                showError(msg, challengeId ? mfaEl : null);
+                                busy = false;
+                                btn.disabled = false;
+                                btn.textContent = challengeId ? 'Verify and sign in' : 'Secure Login';
+                            }
+                        });
+                    })();
+        </script></body></html>

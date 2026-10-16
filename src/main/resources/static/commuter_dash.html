@@ -1,101 +1,396 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="tailwind.generated.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
-<title>Commuter Dashboard | PayTaxiHub</title>
-<link rel="stylesheet" href="professional.css?v=2"><link rel="icon" href="pth-monogram.svg"></head>
-<body class="bg-gray-100">
-<nav class="pth-nav" id="main-nav"><div class="pth-nav-inner"><a href="index.html" class="pth-logo"><img class="pth-logo-mark" src="pth-monogram.svg" alt="" aria-hidden="true">Pay<span>Taxi</span>Hub</a><ul class="pth-nav-links">
-<li><a href="commuter_dash.html" class="active">Dashboard</a></li><li><a href="trips.html">Trips</a></li><li><a href="wallet.html">Wallet</a></li><li><a href="payment.html">Payment</a></li><li><a href="transactions.html">Transactions</a></li><li><a href="sos.html">SOS</a></li><li><a href="#" data-logout class="pth-nav-cta">Sign out</a></li></ul><button class="pth-hamburger" aria-label="Menu"><span></span><span></span><span></span></button></div>
-<div class="pth-mobile-menu"><a href="commuter_dash.html">Dashboard</a><a href="trips.html">Trips</a><a href="wallet.html">Wallet</a><a href="payment.html">Payment</a><a href="transactions.html">Transactions</a><a href="sos.html">SOS</a><a href="#" data-logout class="pth-mobile-cta">Sign out</a></div></nav>
-<main class="pt-16"><section class="section"><div class="section-inner">
-<div class="flex flex-wrap justify-between items-end gap-4"><div><span class="verified-badge">COMMUTER</span><h1 class="section-title mt-3">Book your journey</h1><p class="section-subtitle">Start with your pickup, choose a destination, verify the driver, then confirm the journey.</p></div><div class="flex flex-wrap gap-2"><a href="wallet.html" class="btn-primary md:w-auto px-8"><i class="fa-solid fa-wallet mr-2"></i>Load Money</a></div></div>
-<div class="stats-row">
-<div class="stat-card bg-white shadow"><div id="balance" class="stat-num text-[#007A5E]">R 0.00</div><div class="stat-label text-gray-600">Wallet balance</div></div>
-<div class="stat-card bg-white shadow"><div id="tripCount" class="stat-num text-[#007A5E]">0</div><div class="stat-label text-gray-600">Trips</div></div>
-<div class="stat-card bg-white shadow"><div id="txCount" class="stat-num text-[#007A5E]">0</div><div class="stat-label text-gray-600">Transactions</div></div>
-<div class="stat-card bg-white shadow"><div id="sosCount" class="stat-num text-[#007A5E]">0</div><div class="stat-label text-gray-600">SOS events</div></div></div>
+    <head>
+        <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="tailwind.generated.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+        <title>Commuter Dashboard | PayTaxiHub</title>
+        <link rel="stylesheet" href="professional.css?v=2"><link rel="icon" href="pth-monogram.svg"></head>
+    <body class="bg-gray-100">
+        <nav class="pth-nav" id="main-nav"><div class="pth-nav-inner"><a href="index.html" class="pth-logo"><img class="pth-logo-mark" src="pth-monogram.svg" alt="" aria-hidden="true">Pay<span>Taxi</span>Hub</a><ul class="pth-nav-links">
+                    <li><a href="commuter_dash.html" class="active">Dashboard</a></li><li><a href="trips.html">Trips</a></li><li><a href="wallet.html">Wallet</a></li><li><a href="payment.html">Payment</a></li><li><a href="transactions.html">Transactions</a></li><li><a href="sos.html">SOS</a></li><li><a href="#" data-logout class="pth-nav-cta">Sign out</a></li></ul><button class="pth-hamburger" aria-label="Menu"><span></span><span></span><span></span></button></div>
+            <div class="pth-mobile-menu"><a href="commuter_dash.html">Dashboard</a><a href="trips.html">Trips</a><a href="wallet.html">Wallet</a><a href="payment.html">Payment</a><a href="transactions.html">Transactions</a><a href="sos.html">SOS</a><a href="#" data-logout class="pth-mobile-cta">Sign out</a></div></nav>
+        <main class="pt-16"><section class="section"><div class="section-inner">
+                    <div class="flex flex-wrap justify-between items-end gap-4"><div><span class="verified-badge">COMMUTER</span><h1 class="section-title mt-3">Book your journey</h1><p class="section-subtitle">Start with your pickup, choose a destination, verify the driver, then confirm the journey.</p></div><div class="flex flex-wrap gap-2"><a href="wallet.html" class="btn-primary md:w-auto px-8"><i class="fa-solid fa-wallet mr-2"></i>Load Money</a></div></div>
+                    <div class="stats-row">
+                        <div class="stat-card bg-white shadow"><div id="balance" class="stat-num text-[#007A5E]">R 0.00</div><div class="stat-label text-gray-600">Wallet balance</div></div>
+                        <div class="stat-card bg-white shadow"><div id="tripCount" class="stat-num text-[#007A5E]">0</div><div class="stat-label text-gray-600">Trips</div></div>
+                        <div class="stat-card bg-white shadow"><div id="txCount" class="stat-num text-[#007A5E]">0</div><div class="stat-label text-gray-600">Transactions</div></div>
+                        <div class="stat-card bg-white shadow"><div id="sosCount" class="stat-num text-[#007A5E]">0</div><div class="stat-label text-gray-600">SOS events</div></div></div>
 
-<div id="bookingPanel" class="grid lg:grid-cols-2 gap-6 mt-8">
-<div class="bg-white rounded-xl shadow p-6"><div class="flex items-center justify-between"><h2 class="text-xl font-bold">1. Pickup & destination</h2><span id="gpsBadge" class="status-pill">GPS not set</span></div>
-<div class="grid gap-3 mt-5"><button id="useGps" class="btn-primary"><i class="fa-solid fa-location-crosshairs mr-2"></i>Use my current location</button>
-<label for="destination" class="sr-only">Destination address</label><input id="destination" class="input-field" placeholder="Enter destination, e.g. Kimberley Mall" autocomplete="street-address">
-<button id="findRoute" class="btn-pill primary">Find route & estimate fare</button></div>
-<div class="mt-4 text-sm text-gray-600"><div><strong>Pickup:</strong> <span id="pickupText">Not selected</span></div><div class="mt-1"><strong>Destination:</strong> <span id="destinationText">Not selected</span></div><div class="mt-1"><strong>Distance:</strong> <span id="distanceText">—</span> <span class="ml-3"><strong>Estimated fare:</strong> <span id="fareText">—</span></span></div></div></div>
-<div class="bg-white rounded-xl shadow p-6"><h2 class="text-xl font-bold">Journey map</h2><div id="map" class="w-full mt-4" style="height:360px"></div><p class="text-xs text-gray-500 mt-3">The map shows your pickup, destination and the calculated road route when the routing service is available.</p></div>
-</div>
+                    <div id="bookingPanel" class="grid lg:grid-cols-2 gap-6 mt-8">
+                        <div class="bg-white rounded-xl shadow p-6"><div class="flex items-center justify-between"><h2 class="text-xl font-bold">1. Pickup & destination</h2><span id="gpsBadge" class="status-pill">GPS not set</span></div>
+                            <div class="grid gap-3 mt-5"><button id="useGps" class="btn-primary"><i class="fa-solid fa-location-crosshairs mr-2"></i>Use my current location</button>
+                                <label for="destination" class="sr-only">Destination address</label><input id="destination" class="input-field" placeholder="Enter destination, e.g. Kimberley Mall" autocomplete="street-address">
+                                <button id="findRoute" class="btn-pill primary">Find route & estimate fare</button></div>
+                            <div class="mt-4 text-sm text-gray-600"><div><strong>Pickup:</strong> <span id="pickupText">Not selected</span></div><div class="mt-1"><strong>Destination:</strong> <span id="destinationText">Not selected</span></div><div class="mt-1"><strong>Distance:</strong> <span id="distanceText">—</span> <span class="ml-3"><strong>Estimated fare:</strong> <span id="fareText">—</span></span></div></div></div>
+                        <div class="bg-white rounded-xl shadow p-6"><h2 class="text-xl font-bold">Journey map</h2><div id="map" class="w-full mt-4" style="height:360px"></div><p class="text-xs text-gray-500 mt-3">The map shows your pickup, destination and the calculated road route when the routing service is available.</p></div>
+                    </div>
 
-<div id="driverPanel" class="bg-white rounded-xl shadow p-6 mt-6 hidden"><div class="flex flex-wrap items-center justify-between gap-3"><div><h2 class="text-xl font-bold">2. Verify your driver</h2><p class="text-sm text-gray-600 mt-1">Scan the PayTaxiHub QR displayed by the driver, or choose a driver currently on an active shift.</p></div><div class="flex gap-2"><button id="scanBtn" class="btn-pill primary"><i class="fa-solid fa-qrcode mr-2"></i>Scan shift QR</button><button id="refreshDrivers" class="btn-pill secondary">Refresh</button></div></div>
-<div id="verifiedDriver" class="hidden bg-soft-brand rounded-xl p-5 mt-5"></div><div id="driverCards" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mt-5"></div></div>
+                    <div id="driverPanel" class="bg-white rounded-xl shadow p-6 mt-6 hidden"><div class="flex flex-wrap items-center justify-between gap-3"><div><h2 class="text-xl font-bold">2. Verify your driver</h2><p class="text-sm text-gray-600 mt-1">Scan the PayTaxiHub QR displayed by the driver, or choose a driver currently on an active shift.</p></div><div class="flex gap-2"><button id="scanBtn" class="btn-pill primary"><i class="fa-solid fa-qrcode mr-2"></i>Scan shift QR</button><button id="refreshDrivers" class="btn-pill secondary">Refresh</button></div></div>
+                        <div id="verifiedDriver" class="hidden bg-soft-brand rounded-xl p-5 mt-5"></div><div id="driverCards" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mt-5"></div></div>
 
-<div id="confirmPanel" class="bg-white rounded-xl shadow p-6 mt-6 hidden"><h2 class="text-xl font-bold">3. Confirm journey</h2><div id="confirmation" class="grid md:grid-cols-2 gap-3 mt-5 text-sm"></div><button type="button" id="confirmTrip" class="btn-primary mt-5 md:w-auto px-10">Confirm & request this journey</button><div id="confirmStatus" class="text-sm mt-3" aria-live="polite"></div></div>
+                    <div id="confirmPanel" class="bg-white rounded-xl shadow p-6 mt-6 hidden"><h2 class="text-xl font-bold">3. Confirm journey</h2><div id="confirmation" class="grid md:grid-cols-2 gap-3 mt-5 text-sm"></div><button type="button" id="confirmTrip" class="btn-primary mt-5 md:w-auto px-10">Confirm & request this journey</button><div id="confirmStatus" class="text-sm mt-3" aria-live="polite"></div></div>
 
-<div id="activePanel" class="bg-white rounded-xl shadow p-6 mt-6 hidden"><div class="flex flex-wrap items-center justify-between gap-3"><div><span id="tripPhase" class="info-pill">REQUESTED</span><h2 class="text-xl font-bold mt-3">Your current journey</h2><p id="tripMessage" class="text-gray-600 mt-1"></p></div><button id="tripSos" class="btn-primary md:w-auto bg-red-600"><i class="fa-solid fa-triangle-exclamation mr-2"></i>SOS</button></div><div id="activeTripDetails" class="grid md:grid-cols-2 gap-3 mt-5 text-sm"></div><div id="payArea" class="hidden mt-5 bg-soft-brand rounded-xl p-5"><h3 class="font-bold">Trip completed</h3><p class="text-sm text-gray-600 mt-1">Review the final fare and pay from your PayTaxiHub wallet.</p><button id="payTripBtn" class="btn-primary mt-4 md:w-auto px-8">Pay completed trip</button></div></div>
+                    <div id="activePanel" class="bg-white rounded-xl shadow p-6 mt-6 hidden"><div class="flex flex-wrap items-center justify-between gap-3"><div><span id="tripPhase" class="info-pill">REQUESTED</span><h2 class="text-xl font-bold mt-3">Your current journey</h2><p id="tripMessage" class="text-gray-600 mt-1"></p></div><button id="tripSos" class="btn-primary md:w-auto bg-red-600"><i class="fa-solid fa-triangle-exclamation mr-2"></i>SOS</button></div><div id="activeTripDetails" class="grid md:grid-cols-2 gap-3 mt-5 text-sm"></div><div id="payArea" class="hidden mt-5 bg-soft-brand rounded-xl p-5"><h3 class="font-bold">Trip completed</h3><p class="text-sm text-gray-600 mt-1">Review the final fare and pay from your PayTaxiHub wallet.</p><button id="payTripBtn" class="btn-primary mt-4 md:w-auto px-8">Pay completed trip</button></div></div>
 
-<div class="bg-white rounded-xl shadow p-6 mt-6 border-l-4 border-[#007A5E]"><div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"><div><div class="verified-badge">JOURNEY RECORDS</div><h2 class="text-xl font-bold mt-2">Trip history</h2><p class="text-sm text-gray-600 mt-1">View every journey linked to your commuter account, including requested, active, completed and cancelled trips.</p></div><a href="trips.html" class="btn-primary md:w-auto px-8 whitespace-nowrap"><i class="fa-solid fa-clock-rotate-left mr-2"></i>Open trip history</a></div></div>
+                    <div class="bg-white rounded-xl shadow p-6 mt-6 border-l-4 border-[#007A5E]"><div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"><div><div class="verified-badge">JOURNEY RECORDS</div><h2 class="text-xl font-bold mt-2">Trip history</h2><p class="text-sm text-gray-600 mt-1">View every journey linked to your commuter account, including requested, active, completed and cancelled trips.</p></div><a href="trips.html" class="btn-primary md:w-auto px-8 whitespace-nowrap"><i class="fa-solid fa-clock-rotate-left mr-2"></i>Open trip history</a></div></div>
 
-<div class="grid md:grid-cols-2 gap-6 mt-6"><div class="bg-white rounded-xl shadow p-6"><div class="flex items-center justify-between gap-3"><h2 class="text-xl font-bold">Recent trips</h2><a href="trips.html" class="text-sm font-semibold text-[#007A5E] hover:underline">View all</a></div><div class="overflow-x-auto mt-4"><table class="w-full text-left"><thead><tr class="border-b"><th class="p-2">ID</th><th class="p-2">Driver</th><th class="p-2">Status</th><th class="p-2">Fare</th></tr></thead><tbody id="tripRows"></tbody></table></div></div><div class="bg-white rounded-xl shadow p-6"><h2 class="text-xl font-bold">Safety</h2><p class="card-text mt-2">SOS can be attached to the active trip and includes your latest browser GPS position.</p><a href="sos.html" class="btn-pill secondary mt-4">Open SOS centre</a></div></div>
-</div></section></main>
-<footer class="pth-footer"><div class="footer-inner"><div class="footer-col"><a href="index.html" class="pth-logo text-white text-2xl">Pay<span>Taxi</span>Hub</a><p class="mt-3">Smart, secure and connected taxi transport payments.</p></div><div class="footer-col"><h4>Explore</h4><a href="index.html">Home</a><a href="about.html">About</a><a href="contact.html">Contact</a><a href="login.html">Login</a></div><div class="footer-col"><h4>Portals</h4><a href="commuter_dash.html">Commuter</a><a href="driver_dash.html">Driver</a><a href="owner_dash.html">Fleet Owner</a></div></div><div class="footer-bottom"><p>© <span data-year></span> PayTaxiHub</p></div></footer>
+                    <div class="grid md:grid-cols-2 gap-6 mt-6"><div class="bg-white rounded-xl shadow p-6"><div class="flex items-center justify-between gap-3"><h2 class="text-xl font-bold">Recent trips</h2><a href="trips.html" class="text-sm font-semibold text-[#007A5E] hover:underline">View all</a></div><div class="overflow-x-auto mt-4"><table class="w-full text-left"><thead><tr class="border-b"><th class="p-2">ID</th><th class="p-2">Driver</th><th class="p-2">Status</th><th class="p-2">Fare</th></tr></thead><tbody id="tripRows"></tbody></table></div></div><div class="bg-white rounded-xl shadow p-6"><h2 class="text-xl font-bold">Safety</h2><p class="card-text mt-2">SOS can be attached to the active trip and includes your latest browser GPS position.</p><a href="sos.html" class="btn-pill secondary mt-4">Open SOS centre</a></div></div>
+                </div></section></main>
+        <footer class="pth-footer"><div class="footer-inner"><div class="footer-col"><a href="index.html" class="pth-logo text-white text-2xl">Pay<span>Taxi</span>Hub</a><p class="mt-3">Smart, secure and connected taxi transport payments.</p></div><div class="footer-col"><h4>Explore</h4><a href="index.html">Home</a><a href="about.html">About</a><a href="contact.html">Contact</a><a href="login.html">Login</a></div><div class="footer-col"><h4>Portals</h4><a href="commuter_dash.html">Commuter</a><a href="driver_dash.html">Driver</a><a href="owner_dash.html">Fleet Owner</a></div></div><div class="footer-bottom"><p>© <span data-year></span> PayTaxiHub</p></div></footer>
 
-<div id="scanModal" class="modal-backdrop"><div class="modal-sheet"><div class="flex justify-between items-center"><h3>Scan shift QR</h3><button id="closeScan" class="btn-pill secondary">Close</button></div><div id="qr-reader" class="mt-4"></div><p class="text-sm text-gray-600 mt-3">Scan the driver QR. It opens commuter login and links this journey to the driver's active shift. If your camera is unavailable, enter the shift code shown under the QR.</p><div class="flex gap-2 mt-3"><label for="manualCode" class="sr-only">Active shift QR token</label><input id="manualCode" class="input-field" placeholder="Enter the active shift token"><button id="manualVerify" class="btn-pill primary">Verify</button></div><div id="scanError" class="text-sm text-red-600 mt-3"></div></div></div>
-<script src="app_engine.js"></script>
-<script>
-(async()=>{
- const u=requireUser('Commuter'); if(!u)return;
- let pickup=null,destination=null,distanceKm=0,estimatedFare=0,selectedDriver=null,currentTrip=null,map,routeLine,pickupMarker,destinationMarker,liveMarker,scanner;
- const farePerKm=12;
- const setText=(id,v)=>byId(id).textContent=v;
- function initMap(){map=L.map('map').setView([-28.7282,24.7499],13);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors'}).addTo(map);map.on('click',e=>{destination={lat:e.latlng.lat,lon:e.latlng.lng,label:`Map point ${e.latlng.lat.toFixed(5)}, ${e.latlng.lng.toFixed(5)}`};setText('destination',destination.label);setText('destinationText',destination.label);if(pickup)drawRoute();});}
- async function geocode(q){const r=await fetch(`https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&q=${encodeURIComponent(q)}`,{headers:{Accept:'application/json'}});const d=await r.json();if(!d.length)throw new Error('Destination could not be found. Try a fuller address or click the destination on the map.');return {lat:Number(d[0].lat),lon:Number(d[0].lon),label:d[0].display_name};}
- async function drawRoute(){if(!pickup||!destination)return; if(routeLine){map.removeLayer(routeLine);routeLine=null;} if(pickupMarker)map.removeLayer(pickupMarker);if(destinationMarker)map.removeLayer(destinationMarker);pickupMarker=L.marker([pickup.lat,pickup.lon]).addTo(map).bindPopup('Pickup').openPopup();destinationMarker=L.marker([destination.lat,destination.lon]).addTo(map).bindPopup('Destination');
- try{const r=await fetch(`https://router.project-osrm.org/route/v1/driving/${pickup.lon},${pickup.lat};${destination.lon},${destination.lat}?overview=full&geometries=geojson`);const d=await r.json();if(!d.routes?.length)throw new Error();distanceKm=d.routes[0].distance/1000;routeLine=L.geoJSON(d.routes[0].geometry).addTo(map);map.fitBounds(routeLine.getBounds().pad(.12));}catch{distanceKm=map.distance([pickup.lat,pickup.lon],[destination.lat,destination.lon])/1000;routeLine=L.polyline([[pickup.lat,pickup.lon],[destination.lat,destination.lon]]).addTo(map);map.fitBounds(routeLine.getBounds().pad(.2));}
- try{const quote=await request('fare-preview',{method:'POST',body:JSON.stringify({startLatitude:pickup.lat,startLongitude:pickup.lon,endLatitude:destination.lat,endLongitude:destination.lon})});distanceKm=Number(quote.distanceKm);estimatedFare=Number(quote.fareAmount);}catch(e){toast(e.message||'Server fare preview failed.','error');return;}setText('distanceText',`${distanceKm.toFixed(2)} km`);setText('fareText',money(estimatedFare));byId('driverPanel').classList.remove('hidden');loadDriversUI();}
- function usePosition(){return new Promise((resolve,reject)=>{if(!navigator.geolocation){toast('Browser GPS is not available.','error');reject(new Error('Browser GPS is not available.'));return;}setText('gpsBadge','Getting GPS…');navigator.geolocation.getCurrentPosition(async pos=>{pickup={lat:pos.coords.latitude,lon:pos.coords.longitude,label:`Current location (${pos.coords.latitude.toFixed(5)}, ${pos.coords.longitude.toFixed(5)})`};setText('pickupText',pickup.label);setText('gpsBadge','GPS ready');if(map)map.setView([pickup.lat,pickup.lon],15);if(destination)await drawRoute();resolve(pickup);},err=>{setText('gpsBadge','GPS unavailable');const message=err.code===1?'Location permission was denied. Allow location access in your browser and try again.':'Unable to get your current location. Check your device location services and try again.';toast(message,'error');reject(new Error(message));},{enableHighAccuracy:true,timeout:15000,maximumAge:0});});}
- async function loadDriversUI(){const box=byId('driverCards');box.innerHTML='<div class="text-gray-500">Loading available drivers…</div>';try{const ds=await loadAvailableDrivers();if(!ds.length){box.innerHTML='<div class="text-gray-500">No drivers are currently on an active shift. Ask a driver to start a shift first.</div>';return;}box.innerHTML=ds.map(d=>`<div class="border rounded-xl p-4"><div class="font-bold">${esc(d.fullName)}</div><div class="text-sm text-gray-600 mt-1">${esc(d.vehicleModel||'Vehicle')} · ${esc(d.registrationNumber)}</div><div class="text-xs text-gray-500 mt-1">Active shift #${esc(d.shiftId)}</div><button class="btn-pill secondary mt-4 w-full" data-token="${esc(d.qrToken||'')}">Select & verify</button></div>`).join('');box.querySelectorAll('[data-token]').forEach(b=>b.onclick=async()=>{try{selectedDriver=await verifyDriverQr(b.dataset.token);showVerified();}catch(e){toast(e.message,'error');}});}catch(e){box.innerHTML='';toast(e.message,'error');}}
- function showVerified(){if(!selectedDriver)return;byId('verifiedDriver').classList.remove('hidden');byId('verifiedDriver').innerHTML=`<div class="flex flex-wrap justify-between gap-3"><div><div class="verified-badge">VERIFIED DRIVER</div><h3 class="text-lg font-bold mt-2">${esc(selectedDriver.driverName)}</h3><p class="text-sm text-gray-600">${esc(selectedDriver.vehicleModel||'Vehicle')} · ${esc(selectedDriver.registrationNumber)}</p></div><div class="text-right"><div class="text-xs text-gray-500">Vehicle ID</div><strong>#${esc(selectedDriver.vehicleId)}</strong></div></div>`;byId('confirmPanel').classList.remove('hidden');byId('confirmation').innerHTML=`<div><strong>Pickup</strong><div>${esc(pickup?.label||'GPS required')}</div></div><div><strong>Destination</strong><div>${esc(destination?.label||'Not set')}</div></div><div><strong>Driver</strong><div>${esc(selectedDriver.driverName)}</div></div><div><strong>Vehicle</strong><div>${esc(selectedDriver.registrationNumber)} · ${esc(selectedDriver.vehicleModel||'')}</div></div><div><strong>Distance</strong><div>${distanceKm.toFixed(2)} km</div></div><div><strong>Estimated fare</strong><div>${money(estimatedFare)}</div></div>`;}
- async function refreshTrip(){if(!currentTrip)return;try{const trips=await loadTripsForCommuter(u.userId);const fresh=trips.find(t=>Number(t.tripId)===Number(currentTrip.tripId));if(fresh){currentTrip=fresh;renderTrip();}}catch(e){console.error(e);}}
- function renderTrip(){if(!currentTrip)return;byId('activePanel').classList.remove('hidden');setText('tripPhase',currentTrip.tripPhase||'REQUESTED');setText('tripMessage',currentTrip.tripPhase==='REQUESTED'?'Waiting for the verified driver to accept your journey.':currentTrip.tripPhase==='ACTIVE'?'Driver has accepted. Your journey is in progress.':'Journey completed.');byId('activeTripDetails').innerHTML=`<div><strong>Driver</strong><div>${esc(currentTrip.driverName||'—')}</div></div><div><strong>Vehicle</strong><div>${esc(currentTrip.registrationNumber||'—')}</div></div><div><strong>Destination</strong><div>${esc(currentTrip.destination||'—')}</div></div><div><strong>Fare</strong><div>${money(currentTrip.fareAmount)}</div></div><div><strong>Distance</strong><div>${Number(currentTrip.distanceKm||0).toFixed(2)} km</div></div><div><strong>Trip ID</strong><div>#${esc(currentTrip.tripId)}</div></div>`;
- if(currentTrip.endLatitude&&currentTrip.endLongitude&&map){if(liveMarker)map.removeLayer(liveMarker);liveMarker=L.marker([Number(currentTrip.endLatitude),Number(currentTrip.endLongitude)]).addTo(map).bindPopup('Latest driver location');map.setView([Number(currentTrip.endLatitude),Number(currentTrip.endLongitude)],15);}
- const pay=byId('payArea');if(currentTrip.tripPhase==='COMPLETED'){pay.classList.remove('hidden');byId('payTripBtn').disabled=false;}else pay.classList.add('hidden');}
- async function submitTrip(){
-  const button=byId('confirmTrip'), status=byId('confirmStatus');
-  const setStatus=(message,error=false)=>{if(status){status.textContent=message;status.className=`text-sm mt-3 ${error?'text-red-600':'text-gray-600'}`;}};
-  if(!pickup||!destination||!selectedDriver){setStatus('Please set your pickup, destination and verify a driver before requesting the journey.',true);toast('Complete the journey details first.','error');return;}
-  if(!Number.isFinite(distanceKm)||distanceKm<=0||!Number.isFinite(estimatedFare)||estimatedFare<=0){setStatus('The route and fare have not been calculated yet. Click “Find route & estimate fare” first.',true);toast('Calculate the route before requesting the journey.','error');return;}
-  if(!selectedDriver.driverId||!selectedDriver.vehicleId){setStatus('The selected driver verification is incomplete. Please refresh and verify the driver again.',true);toast('Driver verification is incomplete.','error');return;}
-  try{
-    button.disabled=true;button.textContent='Requesting journey…';setStatus('Sending your journey request to the driver…');
-    const payload={driverId:Number(selectedDriver.driverId),commuterId:Number(u.userId),vehicleId:Number(selectedDriver.vehicleId),destination:String(destination.label),pickupLabel:String(pickup.label),startLatitude:Number(pickup.lat),startLongitude:Number(pickup.lon),endLatitude:Number(destination.lat),endLongitude:Number(destination.lon),distanceKm:Number(distanceKm.toFixed(3)),fareAmount:Number(estimatedFare.toFixed(2)),fareRate:Number(farePerKm)};
-    const trip=await createTrip(payload);
-    if(!trip||!trip.tripId) throw new Error('The journey request was not created. Please try again.');
-    currentTrip=trip;renderTrip();setStatus(`Journey request #${trip.tripId} sent successfully. Waiting for ${trip.driverName||'the driver'} to accept.`);toast('Journey request sent to the driver.','success');
-  }catch(e){console.error('Journey request failed',e);setStatus(e.message||'Unable to request the journey. Please try again.',true);toast(e.message||'Unable to request the journey.','error');
-  }finally{button.disabled=false;button.textContent='Confirm & request this journey';}
- }
- async function sos(){if(!currentTrip){toast('SOS can be attached to an active journey after you request one.','error');return;}navigator.geolocation?.getCurrentPosition(async p=>{try{await sendTripSos(u.userId,currentTrip.tripId,{latitude:p.coords.latitude,longitude:p.coords.longitude});toast('SOS alert sent with your trip and GPS position.','success');}catch(e){toast(e.message,'error');}},()=>toast('Unable to read GPS for SOS.','error'),{enableHighAccuracy:true,timeout:8000});}
- async function pay(){if(!currentTrip||currentTrip.tripPhase!=='COMPLETED')return;try{await payTrip(u.userId,currentTrip.tripId,currentTrip.driverId,Number(currentTrip.fareAmount));toast('Payment completed successfully.','success');byId('payTripBtn').disabled=true;setTimeout(refreshTrip,500);}catch(e){toast(e.message,'error');}}
- async function openScanner(){byId('scanModal').classList.add('open');byId('scanError').textContent='';byId('qr-reader').innerHTML='';if(typeof Html5Qrcode==='undefined'){byId('scanError').innerHTML='<strong>QR scanner library is unavailable.</strong><br>Use the verification code below the driver QR.';return;}scanner=new Html5Qrcode('qr-reader');try{await scanner.start({facingMode:'environment'},{fps:10,qrbox:{width:240,height:240}},async text=>{try{selectedDriver=await verifyDriverQr(text);await closeScanner();showVerified();toast('Shift QR verified.','success');}catch(e){byId('scanError').textContent=e.message||'Invalid PayTaxiHub shift QR.';}});}catch(e){console.error(e);byId('scanError').innerHTML='<strong>Camera could not start.</strong><br>Allow camera access or use the verification code manually.';}}
- async function closeScanner(){try{if(scanner){await scanner.stop();scanner.clear();}}catch{}scanner=null;byId('scanModal').classList.remove('open');}
- initMap();
- byId('useGps').onclick=async()=>{try{await usePosition();}catch{}};byId('findRoute').onclick=async()=>{try{const q=byId('destination').value.trim();if(!q){toast('Enter a destination first.','error');return;}if(!pickup)await usePosition();destination=await geocode(q);setText('destinationText',destination.label);await drawRoute();}catch(e){toast(e.message,'error');}};
- byId('destination').addEventListener('input',()=>{destination=null;setText('destinationText','Not selected');setText('distanceText','—');setText('fareText','—');byId('driverPanel').classList.add('hidden');byId('confirmPanel').classList.add('hidden');if(routeLine){map.removeLayer(routeLine);routeLine=null;}});byId('refreshDrivers').onclick=loadDriversUI;byId('confirmTrip').onclick=submitTrip;byId('tripSos').onclick=sos;byId('payTripBtn').onclick=pay;byId('scanBtn').onclick=openScanner;byId('closeScan').onclick=closeScanner;byId('manualVerify').onclick=async()=>{try{selectedDriver=await verifyDriverQr(byId('manualCode').value.trim());await closeScanner();showVerified();toast('Shift QR verified.','success');}catch(e){byId('scanError').textContent=e.message;}};
- async function refresh(){const w=await loadWallet(u.userId);const [trips,sos,tx]=await Promise.all([loadTripsForCommuter(u.userId),loadUserSos(u.userId),request('transactions/wallet/'+w.walletId)]);setText('balance',money(w?.balance));setText('tripCount',trips.length);setText('txCount',tx.length);setText('sosCount',sos.length);fillTable('tripRows',trips.slice(0,8).map(t=>`<tr class="border-b"><td class="p-2">#${esc(t.tripId)}</td><td class="p-2">${esc(t.driverName||'—')}</td><td class="p-2">${esc(t.tripPhase||t.tripStatus)}</td><td class="p-2">${money(t.fareAmount)}</td></tr>`),4);const active=trips.find(t=>t.tripPhase==='REQUESTED'||t.tripPhase==='ACTIVE');const unpaidCompleted=trips.find(t=>t.tripPhase==='COMPLETED'&&!tx.some(x=>Number(x.tripId)===Number(t.tripId)));if(active){currentTrip=active;renderTrip();}else if(unpaidCompleted){currentTrip=unpaidCompleted;renderTrip();}else{currentTrip=null;byId('activePanel').classList.add('hidden');}}
- try{
-   const qrShift=qs('shiftCode');
-   if(qrShift){
-     selectedDriver=await verifyDriverQr(qrShift);
-     showVerified();
-     toast('Driver shift verified from QR. Choose Confirm to request the journey.','success');
-   }
-   await refresh();
-   if(qrShift) history.replaceState({},document.title,'commuter_dash.html');
-   startLiveRefresh(refreshTrip,5000);
- }catch(e){toast(e.message,'error');}
-})();
-</script></body></html>
+        <div id="scanModal" class="modal-backdrop"><div class="modal-sheet"><div class="flex justify-between items-center"><h3>Scan shift QR</h3><button id="closeScan" class="btn-pill secondary">Close</button></div><div id="qr-reader" class="mt-4"></div><p class="text-sm text-gray-600 mt-3">Scan the driver QR. It opens commuter login and links this journey to the driver's active shift. If your camera is unavailable, enter the shift code shown under the QR.</p><div class="flex gap-2 mt-3"><label for="manualCode" class="sr-only">Active shift QR token</label><input id="manualCode" class="input-field" placeholder="Enter the active shift token"><button id="manualVerify" class="btn-pill primary">Verify</button></div><div id="scanError" class="text-sm text-red-600 mt-3"></div></div></div>
+        <script src="app_engine.js"></script>
+        <script>
+            (async() => {
+                const u = requireUser('Commuter');
+                if (!u)
+                    return;
+                let pickup = null, destination = null, distanceKm = 0, estimatedFare = 0, selectedDriver = null, currentTrip = null, map, routeLine, pickupMarker, destinationMarker, liveMarker, scanner;
+                const farePerKm = 12;
+                const setText = (id, v) => byId(id).textContent = v;
+                function initMap() {
+                    map = L.map('map').setView([-28.7282, 24.7499], 13);
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 19, attribution: '© OpenStreetMap contributors'}).addTo(map);
+                    map.on('click', e => {
+                        destination = {lat: e.latlng.lat, lon: e.latlng.lng, label: `Map point ${e.latlng.lat.toFixed(5)}, ${e.latlng.lng.toFixed(5)}`};
+                        setText('destination', destination.label);
+                        setText('destinationText', destination.label);
+                        if (pickup)
+                            drawRoute();
+                    });
+                }
+                async function geocode(q) {
+                    const r = await fetch(`https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&q=${encodeURIComponent(q)}`, {headers: {Accept: 'application/json'}});
+                    const d = await r.json();
+                    if (!d.length)
+                        throw new Error('Destination could not be found. Try a fuller address or click the destination on the map.');
+                    return {lat: Number(d[0].lat), lon: Number(d[0].lon), label: d[0].display_name};
+                }
+                async function drawRoute() {
+                    if (!pickup || !destination)
+                        return;
+                    if (routeLine) {
+                        map.removeLayer(routeLine);
+                        routeLine = null;
+                    }
+                    if (pickupMarker)
+                        map.removeLayer(pickupMarker);
+                    if (destinationMarker)
+                        map.removeLayer(destinationMarker);
+                    pickupMarker = L.marker([pickup.lat, pickup.lon]).addTo(map).bindPopup('Pickup').openPopup();
+                    destinationMarker = L.marker([destination.lat, destination.lon]).addTo(map).bindPopup('Destination');
+                    try {
+                        const r = await fetch(`https://router.project-osrm.org/route/v1/driving/${pickup.lon},${pickup.lat};${destination.lon},${destination.lat}?overview=full&geometries=geojson`);
+                        const d = await r.json();
+                        if (!d.routes?.length)
+                            throw new Error();
+                        distanceKm = d.routes[0].distance / 1000;
+                        routeLine = L.geoJSON(d.routes[0].geometry).addTo(map);
+                        map.fitBounds(routeLine.getBounds().pad(.12));
+                    } catch {
+                        distanceKm = map.distance([pickup.lat, pickup.lon], [destination.lat, destination.lon]) / 1000;
+                        routeLine = L.polyline([[pickup.lat, pickup.lon], [destination.lat, destination.lon]]).addTo(map);
+                        map.fitBounds(routeLine.getBounds().pad(.2));
+                    }
+                    try {
+                        const quote = await request('fare-preview', {method: 'POST', body: JSON.stringify({startLatitude: pickup.lat, startLongitude: pickup.lon, endLatitude: destination.lat, endLongitude: destination.lon})});
+                        distanceKm = Number(quote.distanceKm);
+                        estimatedFare = Number(quote.fareAmount);
+                    } catch (e) {
+                        toast(e.message || 'Server fare preview failed.', 'error');
+                        return;
+                    }
+                    setText('distanceText', `${distanceKm.toFixed(2)} km`);
+                    setText('fareText', money(estimatedFare));
+                    byId('driverPanel').classList.remove('hidden');
+                    loadDriversUI();
+                }
+                function usePosition() {
+                    return new Promise((resolve, reject) => {
+                        if (!navigator.geolocation) {
+                            toast('Browser GPS is not available.', 'error');
+                            reject(new Error('Browser GPS is not available.'));
+                            return;
+                        }
+                        setText('gpsBadge', 'Getting GPS…');
+                        navigator.geolocation.getCurrentPosition(async pos => {
+                            pickup = {lat: pos.coords.latitude, lon: pos.coords.longitude, label: `Current location (${pos.coords.latitude.toFixed(5)}, ${pos.coords.longitude.toFixed(5)})`};
+                            setText('pickupText', pickup.label);
+                            setText('gpsBadge', 'GPS ready');
+                            if (map)
+                                map.setView([pickup.lat, pickup.lon], 15);
+                            if (destination)
+                                await drawRoute();
+                            resolve(pickup);
+                        }, err => {
+                            setText('gpsBadge', 'GPS unavailable');
+                            const message = err.code === 1 ? 'Location permission was denied. Allow location access in your browser and try again.' : 'Unable to get your current location. Check your device location services and try again.';
+                            toast(message, 'error');
+                            reject(new Error(message));
+                        }, {enableHighAccuracy: true, timeout: 15000, maximumAge: 0});
+                    });
+                }
+                async function loadDriversUI() {
+                    const box = byId('driverCards');
+                    box.innerHTML = '<div class="text-gray-500">Loading available drivers…</div>';
+                    try {
+                        const ds = await loadAvailableDrivers();
+                        if (!ds.length) {
+                            box.innerHTML = '<div class="text-gray-500">No drivers are currently on an active shift. Ask a driver to start a shift first.</div>';
+                            return;
+                        }
+                        box.innerHTML = ds.map(d => `<div class="border rounded-xl p-4"><div class="font-bold">${esc(d.fullName)}</div><div class="text-sm text-gray-600 mt-1">${esc(d.vehicleModel || 'Vehicle')} · ${esc(d.registrationNumber)}</div><div class="text-xs text-gray-500 mt-1">Active shift #${esc(d.shiftId)}</div><button class="btn-pill secondary mt-4 w-full" data-token="${esc(d.qrToken || '')}">Select & verify</button></div>`).join('');
+                        box.querySelectorAll('[data-token]').forEach(b => b.onclick = async() => {
+                                try {
+                                    selectedDriver = await verifyDriverQr(b.dataset.token);
+                                    showVerified();
+                                } catch (e) {
+                                    toast(e.message, 'error');
+                                }
+                            });
+                    } catch (e) {
+                        box.innerHTML = '';
+                        toast(e.message, 'error');
+                    }
+                }
+                function showVerified() {
+                    if (!selectedDriver)
+                        return;
+                    byId('verifiedDriver').classList.remove('hidden');
+                    byId('verifiedDriver').innerHTML = `<div class="flex flex-wrap justify-between gap-3"><div><div class="verified-badge">VERIFIED DRIVER</div><h3 class="text-lg font-bold mt-2">${esc(selectedDriver.driverName)}</h3><p class="text-sm text-gray-600">${esc(selectedDriver.vehicleModel || 'Vehicle')} · ${esc(selectedDriver.registrationNumber)}</p></div><div class="text-right"><div class="text-xs text-gray-500">Vehicle ID</div><strong>#${esc(selectedDriver.vehicleId)}</strong></div></div>`;
+                    byId('confirmPanel').classList.remove('hidden');
+                    byId('confirmation').innerHTML = `<div><strong>Pickup</strong><div>${esc(pickup?.label || 'GPS required')}</div></div><div><strong>Destination</strong><div>${esc(destination?.label || 'Not set')}</div></div><div><strong>Driver</strong><div>${esc(selectedDriver.driverName)}</div></div><div><strong>Vehicle</strong><div>${esc(selectedDriver.registrationNumber)} · ${esc(selectedDriver.vehicleModel || '')}</div></div><div><strong>Distance</strong><div>${distanceKm.toFixed(2)} km</div></div><div><strong>Estimated fare</strong><div>${money(estimatedFare)}</div></div>`;
+                }
+                async function refreshTrip() {
+                    if (!currentTrip)
+                        return;
+                    try {
+                        const trips = await loadTripsForCommuter(u.userId);
+                        const fresh = trips.find(t => Number(t.tripId) === Number(currentTrip.tripId));
+                        if (fresh) {
+                            currentTrip = fresh;
+                            renderTrip();
+                        }
+                    } catch (e) {
+                        console.error(e);
+                    }
+                }
+                function renderTrip() {
+                    if (!currentTrip)
+                        return;
+                    byId('activePanel').classList.remove('hidden');
+                    setText('tripPhase', currentTrip.tripPhase || 'REQUESTED');
+                    setText('tripMessage', currentTrip.tripPhase === 'REQUESTED' ? 'Waiting for the verified driver to accept your journey.' : currentTrip.tripPhase === 'ACTIVE' ? 'Driver has accepted. Your journey is in progress.' : 'Journey completed.');
+                    byId('activeTripDetails').innerHTML = `<div><strong>Driver</strong><div>${esc(currentTrip.driverName || '—')}</div></div><div><strong>Vehicle</strong><div>${esc(currentTrip.registrationNumber || '—')}</div></div><div><strong>Destination</strong><div>${esc(currentTrip.destination || '—')}</div></div><div><strong>Fare</strong><div>${money(currentTrip.fareAmount)}</div></div><div><strong>Distance</strong><div>${Number(currentTrip.distanceKm || 0).toFixed(2)} km</div></div><div><strong>Trip ID</strong><div>#${esc(currentTrip.tripId)}</div></div>`;
+                    if (currentTrip.endLatitude && currentTrip.endLongitude && map) {
+                        if (liveMarker)
+                            map.removeLayer(liveMarker);
+                        liveMarker = L.marker([Number(currentTrip.endLatitude), Number(currentTrip.endLongitude)]).addTo(map).bindPopup('Latest driver location');
+                        map.setView([Number(currentTrip.endLatitude), Number(currentTrip.endLongitude)], 15);
+                    }
+                    const pay = byId('payArea');
+                    if (currentTrip.tripPhase === 'COMPLETED') {
+                        pay.classList.remove('hidden');
+                        byId('payTripBtn').disabled = false;
+                    } else
+                        pay.classList.add('hidden');
+                }
+                async function submitTrip() {
+                    const button = byId('confirmTrip'), status = byId('confirmStatus');
+                    const setStatus = (message, error = false) => {
+                        if (status) {
+                            status.textContent = message;
+                            status.className = `text-sm mt-3 ${error ? 'text-red-600' : 'text-gray-600'}`;
+                    }
+                    };
+                    if (!pickup || !destination || !selectedDriver) {
+                        setStatus('Please set your pickup, destination and verify a driver before requesting the journey.', true);
+                        toast('Complete the journey details first.', 'error');
+                        return;
+                    }
+                    if (!Number.isFinite(distanceKm) || distanceKm <= 0 || !Number.isFinite(estimatedFare) || estimatedFare <= 0) {
+                        setStatus('The route and fare have not been calculated yet. Click “Find route & estimate fare” first.', true);
+                        toast('Calculate the route before requesting the journey.', 'error');
+                        return;
+                    }
+                    if (!selectedDriver.driverId || !selectedDriver.vehicleId) {
+                        setStatus('The selected driver verification is incomplete. Please refresh and verify the driver again.', true);
+                        toast('Driver verification is incomplete.', 'error');
+                        return;
+                    }
+                    try {
+                        button.disabled = true;
+                        button.textContent = 'Requesting journey…';
+                        setStatus('Sending your journey request to the driver…');
+                        const payload = {driverId: Number(selectedDriver.driverId), commuterId: Number(u.userId), vehicleId: Number(selectedDriver.vehicleId), destination: String(destination.label), pickupLabel: String(pickup.label), startLatitude: Number(pickup.lat), startLongitude: Number(pickup.lon), endLatitude: Number(destination.lat), endLongitude: Number(destination.lon), distanceKm: Number(distanceKm.toFixed(3)), fareAmount: Number(estimatedFare.toFixed(2)), fareRate: Number(farePerKm)};
+                        const trip = await createTrip(payload);
+                        if (!trip || !trip.tripId)
+                            throw new Error('The journey request was not created. Please try again.');
+                        currentTrip = trip;
+                        renderTrip();
+                        setStatus(`Journey request #${trip.tripId} sent successfully. Waiting for ${trip.driverName || 'the driver'} to accept.`);
+                        toast('Journey request sent to the driver.', 'success');
+                    } catch (e) {
+                        console.error('Journey request failed', e);
+                        setStatus(e.message || 'Unable to request the journey. Please try again.', true);
+                        toast(e.message || 'Unable to request the journey.', 'error');
+                    } finally {
+                        button.disabled = false;
+                        button.textContent = 'Confirm & request this journey';
+                    }
+                }
+                async function sos() {
+                    if (!currentTrip) {
+                        toast('SOS can be attached to an active journey after you request one.', 'error');
+                        return;
+                    }
+                    navigator.geolocation?.getCurrentPosition(async p => {
+                        try {
+                            await sendTripSos(u.userId, currentTrip.tripId, {latitude: p.coords.latitude, longitude: p.coords.longitude});
+                            toast('SOS alert sent with your trip and GPS position.', 'success');
+                        } catch (e) {
+                            toast(e.message, 'error');
+                        }
+                    }, () => toast('Unable to read GPS for SOS.', 'error'), {enableHighAccuracy: true, timeout: 8000});
+                }
+                async function pay() {
+                    if (!currentTrip || currentTrip.tripPhase !== 'COMPLETED')
+                        return;
+                    try {
+                        await payTrip(u.userId, currentTrip.tripId, currentTrip.driverId, Number(currentTrip.fareAmount));
+                        toast('Payment completed successfully.', 'success');
+                        byId('payTripBtn').disabled = true;
+                        setTimeout(refreshTrip, 500);
+                    } catch (e) {
+                        toast(e.message, 'error');
+                    }
+                }
+                async function openScanner() {
+                    byId('scanModal').classList.add('open');
+                    byId('scanError').textContent = '';
+                    byId('qr-reader').innerHTML = '';
+                    if (typeof Html5Qrcode === 'undefined') {
+                        byId('scanError').innerHTML = '<strong>QR scanner library is unavailable.</strong><br>Use the verification code below the driver QR.';
+                        return;
+                    }
+                    scanner = new Html5Qrcode('qr-reader');
+                    try {
+                        await scanner.start({facingMode: 'environment'}, {fps: 10, qrbox: {width: 240, height: 240}}, async text => {
+                            try {
+                                selectedDriver = await verifyDriverQr(text);
+                                await closeScanner();
+                                showVerified();
+                                toast('Shift QR verified.', 'success');
+                            } catch (e) {
+                                byId('scanError').textContent = e.message || 'Invalid PayTaxiHub shift QR.';
+                            }
+                        });
+                    } catch (e) {
+                        console.error(e);
+                        byId('scanError').innerHTML = '<strong>Camera could not start.</strong><br>Allow camera access or use the verification code manually.';
+                    }
+                }
+                async function closeScanner() {
+                    try {
+                        if (scanner) {
+                            await scanner.stop();
+                            scanner.clear();
+                        }
+                    } catch {
+                    }
+                    scanner = null;
+                    byId('scanModal').classList.remove('open');
+                }
+                initMap();
+                byId('useGps').onclick = async() => {
+                    try {
+                        await usePosition();
+                    } catch {
+                    }
+                };
+                byId('findRoute').onclick = async() => {
+                    try {
+                        const q = byId('destination').value.trim();
+                        if (!q) {
+                            toast('Enter a destination first.', 'error');
+                            return;
+                        }
+                        if (!pickup)
+                            await usePosition();
+                        destination = await geocode(q);
+                        setText('destinationText', destination.label);
+                        await drawRoute();
+                    } catch (e) {
+                        toast(e.message, 'error');
+                    }
+                };
+                byId('destination').addEventListener('input', () => {
+                    destination = null;
+                    setText('destinationText', 'Not selected');
+                    setText('distanceText', '—');
+                    setText('fareText', '—');
+                    byId('driverPanel').classList.add('hidden');
+                    byId('confirmPanel').classList.add('hidden');
+                    if (routeLine) {
+                        map.removeLayer(routeLine);
+                        routeLine = null;
+                    }
+                });
+                byId('refreshDrivers').onclick = loadDriversUI;
+                byId('confirmTrip').onclick = submitTrip;
+                byId('tripSos').onclick = sos;
+                byId('payTripBtn').onclick = pay;
+                byId('scanBtn').onclick = openScanner;
+                byId('closeScan').onclick = closeScanner;
+                byId('manualVerify').onclick = async() => {
+                    try {
+                        selectedDriver = await verifyDriverQr(byId('manualCode').value.trim());
+                        await closeScanner();
+                        showVerified();
+                        toast('Shift QR verified.', 'success');
+                    } catch (e) {
+                        byId('scanError').textContent = e.message;
+                    }
+                };
+                async function refresh() {
+                    const w = await loadWallet(u.userId);
+                    const [trips, sos, tx] = await Promise.all([loadTripsForCommuter(u.userId), loadUserSos(u.userId), request('transactions/wallet/' + w.walletId)]);
+                    setText('balance', money(w?.balance));
+                    setText('tripCount', trips.length);
+                    setText('txCount', tx.length);
+                    setText('sosCount', sos.length);
+                    fillTable('tripRows', trips.slice(0, 8).map(t => `<tr class="border-b"><td class="p-2">#${esc(t.tripId)}</td><td class="p-2">${esc(t.driverName || '—')}</td><td class="p-2">${esc(t.tripPhase || t.tripStatus)}</td><td class="p-2">${money(t.fareAmount)}</td></tr>`), 4);
+                    const active = trips.find(t => t.tripPhase === 'REQUESTED' || t.tripPhase === 'ACTIVE');
+                    const unpaidCompleted = trips.find(t => t.tripPhase === 'COMPLETED' && !tx.some(x => Number(x.tripId) === Number(t.tripId)));
+                    if (active) {
+                        currentTrip = active;
+                        renderTrip();
+                    } else if (unpaidCompleted) {
+                        currentTrip = unpaidCompleted;
+                        renderTrip();
+                    } else {
+                        currentTrip = null;
+                        byId('activePanel').classList.add('hidden');
+                    }
+                }
+                try {
+                    const qrShift = qs('shiftCode');
+                    if (qrShift) {
+                        selectedDriver = await verifyDriverQr(qrShift);
+                        showVerified();
+                        toast('Driver shift verified from QR. Choose Confirm to request the journey.', 'success');
+                    }
+                    await refresh();
+                    if (qrShift)
+                        history.replaceState({}, document.title, 'commuter_dash.html');
+                    startLiveRefresh(refreshTrip, 5000);
+                } catch (e) {
+                    toast(e.message, 'error');
+                }
+            })();
+        </script></body></html>

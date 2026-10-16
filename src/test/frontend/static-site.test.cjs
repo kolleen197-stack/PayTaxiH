@@ -330,19 +330,19 @@ test('auth pages disable field restoration and clear inputs on history navigatio
 
 test('login reports when a previous server session could not be revoked', () => {
   const login = fs.readFileSync(path.join(staticRoot, 'login.html'), 'utf8');
-  assert.match(login, /async function endOldSession\(\)[\s\S]*?if\(!response\.ok\)throw new Error/);
-  assert.match(login, /catch\{[\s\S]*?showError\('We could not confirm that the previous session was ended/);
-  assert.match(login, /cache:'no-store'/);
+  assert.match(login, /async function endOldSession\(\)[\s\S]*?if\s*\(\s*!response\.ok\s*\)\s*throw new Error/);
+  assert.match(login, /catch\s*\{[\s\S]*?showError\('We could not confirm that the previous session was ended/);
+  assert.match(login, /cache\s*:\s*'no-store'/);
   assert.match(login, /resetForm\(\);\s*endOldSession\(\);/);
-  assert.match(login, /catch\(ex\)\{[\s\S]*?emailEl\.value='';\s*pwEl\.value='';\s*mfaEl\.value='';/);
+  assert.match(login, /catch\s*\(\s*ex\s*\)\s*\{[\s\S]*?emailEl\.value\s*=\s*'';\s*pwEl\.value\s*=\s*'';\s*mfaEl\.value\s*=\s*'';/);
   assert.match(login, /Please select your account role\./);
   assert.match(login, /Please enter your email address\./);
   assert.match(login, /Please enter your password\./);
   assert.doesNotMatch(login, /(?:URLSearchParams|qs)\([^)]*\).*?(?:email|password)/i);
   assert.match(login, /id="email"[^>]*autocomplete="off"[^>]*readonly/);
   assert.match(login, /id="password"[^>]*autocomplete="new-password"[^>]*readonly/);
-  assert.match(login, /emailEl\.readOnly=true;pwEl\.readOnly=true/);
-  assert.match(login, /\[emailEl,pwEl\]\.forEach\(el=>el\.addEventListener\('focus',\(\)=>\{el\.readOnly=false;\}\)\)/);
+  assert.match(login, /emailEl\.readOnly\s*=\s*true\s*;\s*pwEl\.readOnly\s*=\s*true/);
+  assert.match(login, /\[\s*emailEl\s*,\s*pwEl\s*\]\.forEach\(el\s*=>\s*el\.addEventListener\('focus'\s*,\s*\(\)\s*=>\s*\{\s*el\.readOnly\s*=\s*false\s*;\s*\}\s*\)\s*\)/);
   assert.match(login, /src="app_engine\.js\?v=4"/);
 });
 
@@ -369,7 +369,7 @@ test('driver shift QR opens commuter login and warns when its host is local-only
   assert.match(driverDashboard, /src="app_engine\.js\?v=4"/);
   assert.match(shiftPage, /buildShiftLoginUrl\(code\)/);
   assert.match(shiftPage, /src="app_engine\.js\?v=4"/);
-  assert.match(login, /roleEl\.value=shiftCode\?'Commuter':''/);
+  assert.match(login, /roleEl\.value\s*=\s*shiftCode\s*\?\s*'Commuter'\s*:\s*''/);
   assert.match(login, /src="app_engine\.js\?v=4"/);
 });
 
