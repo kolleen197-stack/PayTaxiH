@@ -34,7 +34,7 @@ The QR opens commuter login and carries the active shift code. The phone must be
 
 Railway can build this app from the included `Dockerfile` and provide a public HTTPS address. This project expects an existing MySQL database; the database host must allow connections from Railway.
 
-1. Sign in to [Railway](https://railway.com/) and create a project using **Deploy from GitHub repo**. Select `kolleen197-stack/PayTaxiHub` and authorize access if asked.
+1. Sign in to [Railway](https://railway.com/) and create a project using **Deploy from GitHub repo**. Select `kolleen197-stack/PayTaxiH` and authorize access if asked.
 2. In the app service's **Variables**, set the following values from your MySQL provider:
 
    ```text
